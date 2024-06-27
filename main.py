@@ -11,5 +11,21 @@ parser.add_argument("--task", default="return a list of numbers")
 parser.add_argument("--language", default="python")
 args = parser.parse_args()
 
+print("program start...")
+llm = OpenAI()
 
-print("hello")
+code_prompt = PromptTemplate(
+    input_variables=["task", "language"],
+    template="write a very short {language} function that will {task}"
+)
+
+code_chain = LLMChain(
+    llm=llm,
+    prompt=code_prompt
+)
+
+result = code_chain({
+    "language": args.language,
+    "task": args.task
+})
+print(result["text"])
