@@ -1,11 +1,12 @@
 from dotenv import load_dotenv
 from langchain.document_loaders import  TextLoader
 from langchain.text_splitter import  CharacterTextSplitter
+from langchain.embeddings import OpenAIEmbeddings
 
 load_dotenv()
 
 print("program start...")
-
+embeddings = OpenAIEmbeddings()
 text_splitter = CharacterTextSplitter(
     separator="\n",
     chunk_size=200,
