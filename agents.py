@@ -12,7 +12,12 @@ chat = ChatOpenAI()
 tables = list_tables()
 prompt = ChatPromptTemplate(
     messages=[
-        SystemMessage(content=f"You are an analyst with access to a SQLite database.\n List of database tables: \n {tables}"),
+        SystemMessage(content=(
+            "You are an analyst with access to a SQLite database."
+            f"The database has tables of: \n {tables}"
+            "Do not make any assumptions about the database tables and columns,"
+            "instead use the 'describe_table' function"
+        )),
         HumanMessagePromptTemplate.from_template("{input}"),
         MessagesPlaceholder(variable_name="agent_scratchpad")
     ]
