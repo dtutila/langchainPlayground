@@ -5,12 +5,18 @@ from langchain.agents import  OpenAIFunctionsAgent, AgentExecutor
 from langchain.schema import SystemMessage
 from tools.sql import list_tables, run_query_tool, describe_table_tool
 from langchain.memory import ConversationBufferMemory
+from handlers.chat_model_start_handler import ChatModelStartHandler
 from tools.report import write_report_tool
 
 
 load_dotenv()
 
-chat = ChatOpenAI()
+handler = ChatModelStartHandler()
+handlers = [handler]
+chat = ChatOpenAI(
+    callbacks=handlers
+)
+
 tables = list_tables()
 prompt = ChatPromptTemplate(
     messages=[
