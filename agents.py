@@ -4,6 +4,7 @@ from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate, Me
 from langchain.agents import  OpenAIFunctionsAgent, AgentExecutor
 from langchain.schema import SystemMessage
 from tools.sql import list_tables, run_query_tool, describe_table_tool
+from tools.report import write_report_tool
 
 
 load_dotenv()
@@ -22,7 +23,11 @@ prompt = ChatPromptTemplate(
         MessagesPlaceholder(variable_name="agent_scratchpad")
     ]
 )
-tools = [run_query_tool, describe_table_tool]
+tools = [
+    run_query_tool,
+    describe_table_tool,
+    write_report_tool
+]
 agent = OpenAIFunctionsAgent(
     llm=chat,
     prompt=prompt,
@@ -35,4 +40,5 @@ agent_executor = AgentExecutor(
     tools=tools
 )
 
-agent_executor("How many users who have provided a shipping address live in the west coast?")
+agent_executor("how many orders are there? write the results in a html file")
+agent_executor("do the exact same for the users")
